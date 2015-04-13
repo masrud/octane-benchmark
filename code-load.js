@@ -1511,6 +1511,7 @@ function cacheBust(str, old) {
   var keys = salt.toString().split('').map(parseFloat);
   var hash = Math.abs(jenkinsHash(keys, keys.length));
   var replacement = old + hash.toString(36);
+  replacementGlobal = replacement;
   return str.replace(new RegExp(old, "g"), replacement);
 }
 
@@ -1521,6 +1522,7 @@ function runClosure() {
     src = cacheBust(src, "goog");
     var result = indirectEval(src);
     if (result != salt) throw(new Error("Incorrect result: " + result));
+    indirectEval(replacementGlobal+" = null;"); //To fix the memory leak.
   })();
 }
 
