@@ -85,6 +85,8 @@ function tearDownPdfJS() {
   // Allow GC of global state.
   delete this.PDFJS;
   delete this.PdfJS_window;
+
+  canvas_logs = []; //To fix the memory leak.
 }
 
 function buffer(s) {
